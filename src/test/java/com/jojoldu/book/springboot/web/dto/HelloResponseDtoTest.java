@@ -1,51 +1,43 @@
 package com.jojoldu.book.springboot.web.dto;
 
-
+import com.jojoldu.book.springboot.web.HelloController;
 import org.junit.jupiter.api.Test;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.Matchers.is;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.Matchers.is;
+@WebMvcTest(controllers = HelloController.class)
+//@WebMvcTest()
 public class HelloResponseDtoTest {
 
+    @Autowired
+    private MockMvc mvc;
+
     @Test
+    public void hello가_리턴된다() throws Exception {
+        String hello = "hello";
 
-    public void 롬복_기능_테스트() {
-
-        //given
-
-        String name = "test";
-
-        int amount = 1000;
-
-        //when
-
-        HelloResponseDto dto = new HelloResponseDto(name, amount);
-
-        //then
-
-        // assertj라는 테스트 검증 라이브러리의 검증 메소드입니다.
-
-        assertThat(dto.getName()).isEqualTo(name);
-        assertThat(dto.getAmount()).isEqualTo(amount);
-
+        mvc.perform(get("/hello"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(hello));
     }
     @Test
     public void helloDto가_리턴된다() throws Exception {
-        String hello = "hello";
+        String name = "hello";
+        int amount = 1000;
 
         mvc.perform(
-                get("/hello.dto"))
+                        get("/hello/dto")
+                                .param("name", name)
+                                .param("amount", String.valueOf(amount)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(name)))
-                .andExpect(jsonPath("$.amount", is(amount)))
-                .andExpect(content().string(hello));
+                .andExpect(jsonPath("$.amount", is(amount)));
     }
+
 }
