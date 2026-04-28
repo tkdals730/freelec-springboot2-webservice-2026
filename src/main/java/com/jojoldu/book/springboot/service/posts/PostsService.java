@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 @RequiredArgsConstructor
 @Service
 public class PostsService {
@@ -18,6 +22,16 @@ public class PostsService {
     public Long save(PostsSaveRequestDto requestDto) {
         return postsRepository.save(requestDto.toEntity()).getId();
     }
+
+    @Transactional(readOnly = true)
+    public List<PostsResponseDto> findAllDesc() {
+        return postsRepository.findAll()                  // (1) 모든 Posts 조회
+                .stream()
+                .map(PostsResponseDto::new)                         // (2) Posts → PostsResponseDto 변환
+                .collect(Collectors.toList());
+
+    }
+
 
     @Transactional
     public Long update(Long id, PostsUpdateRequestDto requestDto) {
