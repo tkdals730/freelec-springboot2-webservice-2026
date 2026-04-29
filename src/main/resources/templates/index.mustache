@@ -29,7 +29,15 @@
                 <td>{{modifiedDate}}</td>
             </tr>
         {{/posts}}
-        </tbody>
+        {{^posts}}                                  <!-- (1) inverted section 시작 -->
+        <tr>
+            <td colspan="5" class="text-center">
+                등록된 게시글이 없습니다. 새 글을 작성해보세요!
+            </td>
+        </tr>
+        {{/posts}}
+
+</tbody>
     </table>
 </div>
 {{>layout/footer}}
