@@ -6,6 +6,7 @@ import com.jojoldu.book.springboot.web.dto.PostsSaveRequestDto;
 import com.jojoldu.book.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,6 +23,12 @@ public class PostsApiController {
                        @RequestBody PostsUpdateRequestDto requestDto) {
         return postsService.update(id, requestDto);
     }
+    @GetMapping("/api/v1/posts")
+    public List<PostsResponseDto> findAll() {
+        return postsService.findAllDesc();                     // 위에서 만든 메서드 호출
+    }
+
+
 
     @GetMapping("/api/v1/posts/{id}")
     public PostsResponseDto findById(@PathVariable Long id) {

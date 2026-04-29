@@ -2,12 +2,17 @@ package com.jojoldu.book.springboot.service.posts;
 
 import com.jojoldu.book.springboot.domain.posts.Posts;
 import com.jojoldu.book.springboot.domain.posts.PostsRepository;
+import com.jojoldu.book.springboot.web.dto.PostsListResponseDto;
 import com.jojoldu.book.springboot.web.dto.PostsResponseDto;
 import com.jojoldu.book.springboot.web.dto.PostsSaveRequestDto;
 import com.jojoldu.book.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @Service
@@ -18,6 +23,16 @@ public class PostsService {
     public Long save(PostsSaveRequestDto requestDto) {
         return postsRepository.save(requestDto.toEntity()).getId();
     }
+
+    @Transactional(readOnly = true)
+    public List<PostsResponseDto> findAllDesc() {
+        return postsRepository.findAllDesc()                  // (1) 모든 Posts 조회
+                .stream()
+                .map(PostsResponseDto::new)                         // (2) Posts → PostsResponseDto 변환
+                .collect(Collectors.toList());
+
+    }
+
 
     @Transactional
     public Long update(Long id, PostsUpdateRequestDto requestDto) {
