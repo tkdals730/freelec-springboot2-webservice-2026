@@ -2,6 +2,7 @@ package com.jojoldu.book.springboot.service.posts;
 
 import com.jojoldu.book.springboot.domain.posts.Posts;
 import com.jojoldu.book.springboot.domain.posts.PostsRepository;
+import com.jojoldu.book.springboot.web.dto.PostsListResponseDto;
 import com.jojoldu.book.springboot.web.dto.PostsResponseDto;
 import com.jojoldu.book.springboot.web.dto.PostsSaveRequestDto;
 import com.jojoldu.book.springboot.web.dto.PostsUpdateRequestDto;
@@ -25,7 +26,7 @@ public class PostsService {
 
     @Transactional(readOnly = true)
     public List<PostsResponseDto> findAllDesc() {
-        return postsRepository.findAll()                  // (1) 모든 Posts 조회
+        return postsRepository.findAllDesc()                  // (1) 모든 Posts 조회
                 .stream()
                 .map(PostsResponseDto::new)                         // (2) Posts → PostsResponseDto 변환
                 .collect(Collectors.toList());
