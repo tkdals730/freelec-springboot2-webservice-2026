@@ -19,3 +19,8 @@
 - H2 콘솔 활성화 (/h2-console)
 - BaseTimeEntity + @EnableJpaAuditing 으로 생성/수정 시간 자동 기록
 - (정리) 선행 작성된 delete() 코드를 Day 3 (교재 4-5) 강의로 이관  
+
+
+_____
+# 네이버 로그인 동작
+![img.png](img.png)
