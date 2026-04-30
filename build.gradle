@@ -63,6 +63,7 @@ dependencies {
     // Spring Security 기본 스타터 (보통 함께 사용)
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
 
+    //  세션 저장소를 DB 로
     implementation 'org.springframework.session:spring-session-jdbc'
 
     // MariaDB 드라이버 등록
