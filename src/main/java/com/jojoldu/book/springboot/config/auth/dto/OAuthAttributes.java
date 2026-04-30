@@ -28,11 +28,14 @@ public class OAuthAttributes {
 
     // of() — OAuth2User 에서 반환하는 사용자 정보는 Map 이므로 값 하나하나를 변환합니다.
 
-    // 본 수업은 Google 만 다룹니다 (Naver 생략).
+    // Google, Naver OAuth 응답 정보를 OAuthAttributes로 변환합니다.
 
     public static OAuthAttributes of(String registrationId,
                                      String userNameAttributeName,
                                      Map<String, Object> attributes) {
+        if ("naver".equals(registrationId)) {
+            return ofNaver(userNameAttributeName, attributes);
+        }
         return ofGoogle(userNameAttributeName, attributes);
     }
     private static OAuthAttributes ofGoogle(String userNameAttributeName,
@@ -45,6 +48,20 @@ public class OAuthAttributes {
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
+    private static OAuthAttributes ofNaver(String userNameAttributeName,
+                                           Map<String, Object> attributes) {
+
+        Map<String, Object> response =
+                (Map<String, Object>) attributes.get("response");
+
+        return OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .picture((String) response.get("profile_image"))
+                .attributes(response)
+                .nameAttributeKey("id")
+                .build();
+    }
 
     // User 엔티티를 생성합니다. 처음 가입할 때는 권한이 없는 GUEST 입니다.
     public User toEntity() {
@@ -55,4 +72,7 @@ public class OAuthAttributes {
                 .role(Role.GUEST)
                 .build();
     }
+
+
+
 }
